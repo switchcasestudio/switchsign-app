@@ -4,23 +4,23 @@ version = "0.1.0"
 description = "Self-hosted contract generation and signing app for Switch Case Studio"
 requires-python = ">=3.12"
 dependencies = [
-  "fastapi==0.115.6",
-  "uvicorn[standard]==0.34.0",
-  "sqlalchemy==2.0.36",
-  "pydantic==2.10.4",
-  "pydantic-settings==2.7.1",
-  "email-validator==2.2.0",
-  "jinja2==3.1.5",
-  "python-multipart==0.0.20",
-  "markdown-it-py==3.0.0",
-  "bleach==6.2.0",
-  "weasyprint==63.1",
-  "apscheduler==3.11.0",
-  "google-cloud-storage==2.19.0",
-  "google-auth==2.37.0",
-  "resend==2.6.0",
+  "fastapi==0.141.1",
+  "uvicorn[standard]==0.52.4",
+  "sqlalchemy==2.0.52",
+  "pydantic==2.13.5",
+  "pydantic-settings==2.15.0",
+  "email-validator==2.3.0",
+  "jinja2==3.1.6",
+  "python-multipart==0.0.32",
+  "markdown-it-py==4.2.0",
+  "bleach==6.4.0",
+  "weasyprint==69.0",
+  "apscheduler==3.11.3",
+  "google-cloud-storage==3.13.1",
+  "google-auth==2.57.0",
+  "resend==2.42.0",
   "httpx==0.28.1",
-  "python-dotenv==1.0.1"
+  "python-dotenv==1.2.3"
 ]
 
 [build-system]
