@@ -1,0 +1,482 @@
+:root {
+  --brand-orange: #f36f3a;
+  --brand-paper: #ecebe8;
+  --brand-pink: #e9b6e0;
+  --brand-black: #080808;
+  --color-bg: var(--brand-paper);
+  --color-surface: var(--brand-paper);
+  --color-text: var(--brand-black);
+  --color-muted: #4b403b;
+  --color-accent: var(--brand-black);
+  --color-border: var(--brand-black);
+  --radius: 0;
+  --max-width: 980px;
+  --frame: clamp(18px, 3.5vw, 36px);
+  /* Defaults for the giant cover-style banners; templates may override per .card */
+  --banner-top: "SERVICE";
+  --banner-bottom: "AGREEMENT";
+}
+
+@font-face {
+  font-family: "Helvetica Neue Switch";
+  src: url("/static/fonts/HelveticaNeue.ttc") format("truetype-collection");
+  font-weight: 400 900;
+  font-style: normal;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--brand-orange);
+  color: var(--color-text);
+  font-family: "Helvetica Neue Switch", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header / footer sit on the orange background, outside the frame */
+.site-header,
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px 24px;
+  color: var(--brand-black);
+}
+
+.site-header { padding-top: 28px; }
+
+.brand {
+  color: var(--brand-black);
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.site-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+/*
+ * The card is the paper-colored interior of the branded frame.
+ * The orange "frame" is the body background showing through margin around the card.
+ * Giant cover-style type lives in ::before / ::after, customizable via --banner-top
+ * and --banner-bottom on the .card element. The starburst is its own child element.
+ */
+.card {
+  background: var(--brand-paper);
+  border: 0;
+  padding: clamp(120px, 18vw, 180px) clamp(28px, 6vw, 64px);
+  position: relative;
+  overflow: hidden;
+  margin: var(--frame) 0;
+}
+
+.card::before {
+  content: var(--banner-top);
+  position: absolute;
+  top: clamp(-12px, -1.5vw, -8px);
+  left: 0;
+  right: clamp(110px, 18vw, 180px); /* leave room for the starburst */
+  font-size: clamp(64px, 12vw, 150px);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.85;
+  color: var(--brand-black);
+  text-align: left;
+  padding-left: clamp(16px, 3vw, 32px);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card::after {
+  content: var(--banner-bottom);
+  position: absolute;
+  bottom: clamp(-12px, -1.5vw, -8px);
+  left: 0;
+  right: 0;
+  font-size: clamp(54px, 12.5vw, 138px);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.85;
+  color: var(--brand-black);
+  text-align: left;
+  padding: 0 clamp(16px, 3vw, 32px);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Pink starburst with logo, top-right of the card */
+.starburst {
+  position: absolute;
+  top: clamp(80px, 13vw, 140px);
+  right: clamp(16px, 3vw, 36px);
+  width: clamp(110px, 18vw, 170px);
+  height: clamp(110px, 18vw, 170px);
+  background-image: url("/static/brand/logo-starburst.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.title-block { position: relative; }
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  color: var(--brand-black);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(22px, 3.6vw, 32px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin: 0 0 12px;
+  max-width: 640px;
+  text-transform: uppercase;
+}
+
+h2 {
+  border-top: 1px solid var(--brand-black);
+  font-size: 16px;
+  margin: 36px 0 16px;
+  padding-top: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  color: var(--color-muted);
+  font-size: 16px;
+  margin: 0 0 28px;
+  max-width: 620px;
+}
+
+/* The contract body itself — clean and readable, on paper */
+.contract {
+  border-bottom: 1px solid var(--brand-black);
+  border-top: 1px solid var(--brand-black);
+  font-size: 16px;
+  line-height: 1.65;
+  padding: 26px 0;
+  position: relative;
+  z-index: 0;
+}
+
+.contract h1,
+.contract h2,
+.contract h3,
+.contract h4 { margin-top: 1.4em; margin-bottom: .55em; }
+.contract h1:first-child,
+.contract h2:first-child { margin-top: 0; }
+.contract h1 { font-size: 22px; border: 0; padding: 0; text-transform: uppercase; }
+.contract h2 { font-size: 17px; border: 0; padding: 0; text-transform: uppercase; }
+.contract h3 { font-size: 15px; text-decoration: underline; text-transform: none; }
+.contract table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+.contract th,
+.contract td { border: 1px solid var(--brand-black); padding: 10px; text-align: left; vertical-align: top; }
+.contract a { color: var(--brand-black); }
+
+.sign-block { position: relative; z-index: 0; }
+.sign-block label { display: block; margin: 18px 0 7px; font-weight: 400; }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  border: 1px solid rgba(8,8,8,0.3);
+  border-radius: 0;
+  padding: 7px 10px;
+  font: inherit;
+  color: var(--color-text);
+  background: #fffdf8;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 0;
+}
+
+textarea { resize: vertical; }
+
+.address-autocomplete { position: relative; }
+
+.address-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #fffdf8;
+  border: 1px solid rgba(8,8,8,0.3);
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 6px 16px rgba(8,8,8,0.12);
+}
+
+.address-suggestions li {
+  padding: 9px 10px;
+  cursor: pointer;
+}
+
+.address-suggestions li:hover,
+.address-suggestions li.is-active {
+  background: var(--brand-orange);
+  color: var(--brand-black);
+}
+
+.signature-wrap {
+  width: 100%;
+  border-radius: 0;
+  overflow: hidden;
+  background: #fffdf8;
+}
+
+#signature-pad {
+  width: 100%;
+  height: 220px;
+  display: block;
+  border: 1px solid rgba(8,8,8,0.2);
+  border-radius: 0;
+  touch-action: none;
+  background: #fffdf8;
+}
+
+.checkbox-row {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 400 !important;
+  margin: 24px 0 !important;
+}
+
+.checkbox-row input { margin-top: 4px; min-width: 18px; min-height: 18px; }
+
+.button {
+  border: 1px solid var(--brand-black);
+  border-radius: 0;
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.button-primary {
+  width: 100%;
+  min-height: 52px;
+  background: var(--brand-orange);
+  color: var(--brand-black);
+}
+
+.button-primary:hover { background: var(--brand-black); color: var(--brand-paper); }
+.button-primary:disabled { opacity: .65; cursor: wait; }
+
+.button-secondary { background: var(--brand-paper); color: var(--color-text); border-color: rgba(8,8,8,0.25); font-weight: 400; }
+.button-secondary:hover { background: var(--brand-black); color: var(--brand-paper); }
+
+.secondary-actions { margin-top: 10px; }
+
+/* Mobile — keep the framed look but tighten the giant type so it stays in proportion */
+@media (max-width: 560px) {
+  :root { --frame: 14px; }
+  .page { padding-left: 14px; padding-right: 14px; }
+  .card { padding: 90px 22px; }
+  .card::before { font-size: 64px; padding-left: 14px; right: 90px; }
+  .card::after { font-size: 56px; padding-left: 14px; padding-right: 14px; }
+  .starburst {
+    width: 84px;
+    height: 84px;
+    top: 56px;
+    right: 10px;
+  }
+  .site-footer { flex-direction: column; }
+  h1 { font-size: 20px; }
+}
+
+/* ─── Sign / contract page: inverted palette, full-height orange frame ─── */
+body.page--sign {
+  background: var(--brand-paper);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page--sign .page {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page--sign .card {
+  flex: 1;
+  margin: 0;
+}
+
+body.page--sign .brand {
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+body.page--sign .card::before {
+  top: clamp(6px, 1vw, 12px);
+}
+
+body.page--sign .card::after {
+  bottom: clamp(6px, 1vw, 12px);
+  padding-right: clamp(32px, 4vw, 56px);
+}
+
+body.page--sign .starburst {
+  top: clamp(14px, 2vw, 24px);
+  right: clamp(14px, 2vw, 24px);
+}
+
+/* ─── Signed / thank-you page: inverted palette, 100vh, orange frame ─── */
+body.page--signed {
+  background: var(--brand-paper);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page--signed .site-header,
+body.page--signed .site-footer {
+  max-width: 1500px;
+}
+
+body.page--signed .site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.page--signed .brand {
+  font-size: clamp(11px, 1.4vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+body.page--signed .page {
+  flex: 1;
+  max-width: 1500px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-frame {
+  flex: 1;
+  background: var(--brand-orange);
+  padding: var(--frame);
+  display: flex;
+  flex-direction: column;
+}
+
+body.page--signed .centered-card {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Centered confirmation composition: brand badge + message stack.
+   Keeps the full-bleed orange frame but fills the vertical center so the
+   page reads as an intentional poster rather than stranded text. */
+.signed-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.signed-burst {
+  width: clamp(96px, 13vw, 150px);
+  height: clamp(96px, 13vw, 150px);
+  margin: 0 auto clamp(20px, 3vw, 32px);
+  background: url("/static/brand/logo-starburst.svg") center / contain no-repeat;
+}
+
+body.page--signed .signed-content .eyebrow {
+  margin-bottom: 16px;
+  letter-spacing: 0.16em;
+}
+
+body.page--signed .signed-content h1 {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(26px, 4.4vw, 40px);
+}
+
+body.page--signed .signed-content .subtitle {
+  margin: 0 auto 18px;
+  font-size: clamp(16px, 1.8vw, 18px);
+}
+
+.signed-note {
+  max-width: 420px;
+  margin: 0 auto;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+body.page--signed .centered-card::before {
+  font-size: clamp(48px, 8vw, 108px);
+  top: clamp(6px, 1vw, 12px);
+}
+
+body.page--signed .centered-card::after {
+  font-size: clamp(42px, 7.5vw, 96px);
+  bottom: clamp(6px, 1vw, 12px);
+}
+
+@media (max-width: 560px) {
+  body.page--signed .site-header,
+  body.page--signed .site-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

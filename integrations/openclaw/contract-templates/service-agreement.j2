@@ -1,0 +1,52 @@
+{# SAMPLE TEMPLATE. This is a short example showing how SwitchSign renders a
+   contract from an intake file. It is not legal advice and not a real
+   agreement: write your own terms (ideally with a lawyer) before using it. #}
+# {{ contract_title }}
+
+**Quick summary**
+
+{% for bullet in quick_summary %}
+- {{ bullet }}
+{% endfor %}
+
+**Project fee is ${{ project_fee_display }}, {{ payment_terms_short }}.**
+
+## 1. Project overview
+
+{{ project_overview }}
+
+## 2. Deliverables
+
+{% for item in deliverables %}
+- {{ item }}
+{% endfor %}
+
+## 3. Not included
+
+{% for item in out_of_scope %}
+- {{ item }}
+{% endfor %}
+
+## 4. Timeline and revisions
+
+The expected timeline is {{ timeline }}. The project includes up to {{ revision_rounds }} rounds of revisions. Extra work is billed at ${{ hourly_rate }} per hour, agreed in writing first.
+
+## 5. Fees and payment
+
+The total project fee is ${{ project_fee_display }}, paid as follows:
+
+{% for step in payment_installments %}
+- {{ step }}
+{% endfor %}
+
+## 6. Support
+
+After delivery, the studio fixes defects in the delivered work for {{ support_days }} days at no extra cost.
+
+## 7. Governing law
+
+This agreement is governed by the laws of {{ governing_state }}, with any dispute heard in {{ jurisdiction }}.
+
+## 8. Signatures
+
+By signing below, {{ client_name }} agrees to the terms of this agreement.

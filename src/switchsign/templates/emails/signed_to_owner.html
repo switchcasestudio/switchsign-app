@@ -1,0 +1,28 @@
+<div style="background:#f36f3a;padding:24px;font-family:Arial,Helvetica,sans-serif;color:#080808;">
+  <div style="max-width:680px;margin:0 auto;background:#ecebe8;padding:28px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 22px;">
+      <tr>
+        <td style="vertical-align:top;padding:0;">
+          <div style="font-size:42px;line-height:.82;font-weight:900;letter-spacing:-.06em;text-transform:uppercase;">Signed Agreement</div>
+          <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-top:10px;">Switch Case Studio</div>
+        </td>
+        <td width="132" style="vertical-align:top;text-align:right;padding:0 0 0 18px;">
+          <img src="{{ logo_url }}" alt="Switch Case Studio" width="118" height="118" style="display:block;margin-left:auto;border:0;outline:0;text-decoration:none;width:118px;height:118px;">
+        </td>
+      </tr>
+    </table>
+    <p>A new SwitchSign agreement has just been signed.</p>
+    <table style="width:100%;border-collapse:collapse;">
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Client legal name</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ contract.client_signed_name or contract.client_name }}</td></tr>
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Email</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ contract.client_email }}</td></tr>
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Project</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ contract.contract_title }}</td></tr>
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Signed at</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ signed_at_display }}</td></tr>
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Audit ID</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ contract.id }}</td></tr>
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Client IP</strong></td><td style="border-top:1px solid #080808;padding:8px 0;">{{ contract.client_ip }}</td></tr>
+      {% if drive_url %}
+      <tr><td style="border-top:1px solid #080808;padding:8px 0;"><strong>Storage copy</strong></td><td style="border-top:1px solid #080808;padding:8px 0;"><a href="{{ drive_url }}">{{ drive_url }}</a></td></tr>
+      {% endif %}
+    </table>
+    <p>A copy of the signed PDF is attached.</p>
+  </div>
+</div>

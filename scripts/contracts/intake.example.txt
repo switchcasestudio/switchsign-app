@@ -1,0 +1,64 @@
+# ============================================================================
+#  SwitchSign contract intake — copy this file, fill it in, then run:
+#     python scripts/generate_contract.py scripts/contracts/your-file.txt
+#  Review the generated .md, then add --send to create the signing link.
+#
+#  Format:  key: value          (one per line)
+#           list keys: leave the value blank and add "- " lines under it
+#           lines starting with # are comments and ignored
+#  Required: client_name, client_email, contract_title, project_overview,
+#            deliverables, project_fee, timeline
+# ============================================================================
+
+# --- Client (REQUIRED — never guess these) ---------------------------------
+client_name: Northwind Bakery LLC
+client_email: client@northwind.example.com
+
+# Optional — if you know them, these pre-fill the signing form's Business
+# fields so the client doesn't have to re-type them (they can still edit).
+client_company: Northwind Bakery LLC
+client_title: Owner
+
+# --- Title shown on the signing page + emails ------------------------------
+contract_title: Website Design, Development & Managed Hosting — Northwind Bakery
+
+# --- 2-3 sentence overview of the project ----------------------------------
+project_overview: Switch Case Studio will design, develop, launch, and host a modern, conversion-focused marketing website for Northwind Bakery, a neighborhood bakery and cafe. The site will present services professionally, support lead generation, and create a trustworthy first impression for prospective clients.
+
+# --- What the client gets --------------------------------------------------
+deliverables:
+- Responsive marketing website (Home, About, Services, Contact + one landing page)
+- Lead-capture contact form
+- Basic on-page SEO (page titles, meta descriptions, headings, clean URLs)
+- Launch support and initial hosting configuration
+
+# --- Money -----------------------------------------------------------------
+project_fee: 3500
+# Payment schedule. Delete these lines to default to "100% due on signing".
+payment_installments:
+- 50% deposit ($1,750) due before project kickoff
+- 25% ($875) due after design approval
+- 25% ($875) due before production launch
+
+# --- Timeline --------------------------------------------------------------
+timeline: 3-5 weeks
+
+# --- Hosting (yes/no) -------------------------------------------------------
+# If yes: set the recurring price. hosting_first_year_included = is year one
+# part of the project fee? hosting_annual_fee = $ amount after year one (blank = none).
+hosting_included: yes
+hosting_price: $75/month
+hosting_first_year_included: no
+hosting_annual_fee:
+
+# --- Optional overrides (delete to use the studio defaults) ----------------
+revision_rounds: two (2)
+support_days: 14
+# out_of_scope: delete to use the standard exclusions list, or override:
+# out_of_scope:
+# - Logo or full brand identity design
+# - Photography, videography, or stock assets
+
+# --- Cover bullets ---------------------------------------------------------
+# Leave blank to auto-build from deliverables + timeline + hosting.
+quick_summary:

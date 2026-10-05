@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block body_class %}page--sign{% endblock %}
+{% block title %}Sign {{ contract_title }}{% endblock %}
+{% block content %}
+<div class="card-frame">
+<section class="card" style="--banner-top: '{{ banner_top | default('SERVICE') }}'; --banner-bottom: '{{ banner_bottom | default('AGREEMENT') }}';">
+  <div class="starburst" aria-hidden="true"></div>
+
+  <div class="title-block">
+    <p class="eyebrow">Switch Case Studio</p>
+    <h1>{{ contract_title }}</h1>
+    <p class="subtitle">Prepared for {{ client_name }}. Please review the agreement below, then complete your legal signing details.</p>
+  </div>
+
+  <article class="contract">{{ contract_html | safe }}</article>
+
+  <form id="sign-form" class="sign-block" method="post" action="/s/{{ token }}/submit" enctype="multipart/form-data">
+    <h2>Your information</h2>
+    <label for="client_signed_name">Full legal name <span class="field-hint">(as it appears on legal documents — this is who signs)</span></label>
+    <input id="client_signed_name" name="client_signed_name" type="text" autocomplete="name" required placeholder="Full legal name">
+
+    <label for="client_signed_email">Email address</label>
+    <input id="client_signed_email" name="client_signed_email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+    <label for="client_phone">Phone number</label>
+    <input id="client_phone" name="client_phone" type="tel" autocomplete="tel" required placeholder="+1 (555) 000-0000">
+
+    <label for="client_signed_address">Address <span class="field-hint">(business or mailing address — start typing for suggestions)</span></label>
+    <div class="address-autocomplete">
+      <input id="client_signed_address" name="client_signed_address" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="address-suggestions" required placeholder="Street address, city, state, ZIP">
+      <ul id="address-suggestions" class="address-suggestions" role="listbox" hidden></ul>
+    </div>
+
+    <h2>Business <span class="field-hint">(optional — only if you're signing for a company)</span></h2>
+    <label for="client_company_name">Company name</label>
+    <input id="client_company_name" name="client_company_name" type="text" autocomplete="organization" placeholder="Acme Corp LLC">
+
+    <label for="client_title">Your title / role</label>
+    <input id="client_title" name="client_title" type="text" autocomplete="organization-title" placeholder="e.g. CEO, Owner, Project Manager">
+
+    <h2>Your signature</h2>
+    <div class="signature-wrap">
+      <canvas id="signature-pad" width="600" height="200" aria-label="Signature pad"></canvas>
+    </div>
+    <div class="form-actions secondary-actions">
+      <button type="button" id="clear-signature" class="button button-secondary">Clear</button>
+    </div>
+
+    <input type="hidden" id="signature_data_url" name="signature_data_url">
+
+    <label class="checkbox-row" for="agreed">
+      <input id="agreed" name="agreed" type="checkbox" value="true" required>
+      <span>I have read and agree to this Agreement.</span>
+    </label>
+
+    <button id="submit-button" class="button button-primary" type="submit">Sign and submit</button>
+  </form>
+</section>
+</div>
+<script src="/static/signature_pad.min.js?v=scs-20260715-1"></script>
+<script src="/static/sign.js?v=scs-20260715-1"></script>
+{% endblock %}

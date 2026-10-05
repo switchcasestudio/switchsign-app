@@ -1,0 +1,23 @@
+services:
+  switchsign:
+    build: .
+    container_name: switchsign
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env:ro
+    env_file:
+      - .env
+    networks:
+      - openclaw-dj2a_default
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.switchsign.rule=Host(`contracts.example.com`)
+      - traefik.http.routers.switchsign.entrypoints=websecure
+      - traefik.http.routers.switchsign.tls=true
+      - traefik.http.routers.switchsign.tls.certresolver=letsencrypt
+      - traefik.http.services.switchsign.loadbalancer.server.port=8000
+
+networks:
+  openclaw-dj2a_default:
+    external: true

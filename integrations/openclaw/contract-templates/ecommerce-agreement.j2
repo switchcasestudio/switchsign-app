@@ -1,0 +1,51 @@
+{# SAMPLE TEMPLATE for an e-commerce build, selected with --template
+   ecommerce-agreement.j2. Optional e-commerce fields (sku_cap, brand_count)
+   are used only when the intake provides them. Not legal advice. #}
+# {{ contract_title }}
+
+**Quick summary**
+
+{% for bullet in quick_summary %}
+- {{ bullet }}
+{% endfor %}
+
+**Project fee is ${{ project_fee_display }}, {{ payment_terms_short }}.**
+
+## 1. Store overview
+
+{{ project_overview }}
+
+## 2. What's included
+
+{% for item in deliverables %}
+- {{ item }}
+{% endfor %}
+{% if sku_cap is defined %}
+- Product setup for up to {{ sku_cap }} products{% if brand_count is defined %} across {{ brand_count }} brands{% endif %}
+{% endif %}
+
+## 3. Not included
+
+{% for item in out_of_scope %}
+- {{ item }}
+{% endfor %}
+
+## 4. Timeline and revisions
+
+The expected timeline is {{ timeline }}, with up to {{ revision_rounds }} rounds of revisions. Extra work is billed at ${{ hourly_rate }} per hour, agreed in writing first.
+
+## 5. Fees and payment
+
+{% for step in payment_installments %}
+- {{ step }}
+{% endfor %}
+
+Payment processor fees, product data and third-party app subscriptions are the client's responsibility.
+
+## 6. Governing law
+
+This agreement is governed by the laws of {{ governing_state }}, with any dispute heard in {{ jurisdiction }}.
+
+## 7. Signatures
+
+By signing below, {{ client_name }} agrees to the terms of this agreement.

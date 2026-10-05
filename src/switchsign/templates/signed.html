@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body_class %}page--signed{% endblock %}
+{% block title %}Agreement received{% endblock %}
+{% block content %}
+<div class="card-frame">
+  <section class="card centered-card">
+    <div class="signed-content">
+      <div class="signed-burst" aria-hidden="true"></div>
+      <p class="eyebrow">Switch Case Studio</p>
+      <h1>Thank you, {{ client_signed_name or client_name }}.</h1>
+      <p class="subtitle">Your signed agreement has been received and saved. A copy is on its way to your inbox.</p>
+      <p class="signed-note">You can safely close this page. If the email doesn’t arrive within a few minutes, please check your spam folder.</p>
+    </div>
+  </section>
+</div>
+<script>
+  // Prevent navigating back to the signing form after submission.
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', function () {
+    history.pushState(null, '', location.href);
+  });
+</script>
+{% endblock %}

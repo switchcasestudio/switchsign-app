@@ -1,0 +1,33 @@
+.env
+.venv/
+.venv-render/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+data/
+dist/
+build/
+*.egg-info/
+
+*.pyc
+
+# Graphify — local knowledge-graph tool output, not part of the app
+graphify-out/
+# Manual contract generator: ignore real client intakes + rendered output (PII),
+# but keep the example template tracked.
+scripts/contracts/out/
+scripts/contracts/*.txt
+!scripts/contracts/intake.example.txt
+!scripts/contracts/requirements.txt
+
+# Local PDF/HTML render previews (throwaway, regenerated on demand)
+/cover-*.pdf
+/preview-*.pdf
+/*-preview.html
+
+# Regenerable PDF preview output + stray graphify run inside src/
+src/switchsign/static/pdf-preview.html
+src/graphify-out/

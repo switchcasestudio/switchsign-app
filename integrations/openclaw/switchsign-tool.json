@@ -1,0 +1,34 @@
+{
+  "name": "switchsign_create_contract",
+  "description": "Create a new service agreement and get back a signing URL to send to the client. Use this whenever the user asks to draft, send, or generate a contract/agreement for a client.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "client_name": {
+        "type": "string",
+        "description": "The client's legal business name or, if individual, their full name. Used in the contract and audit log."
+      },
+      "client_email": {
+        "type": "string",
+        "description": "Email address where the signing reminder and signed copy will be sent."
+      },
+      "contract_title": {
+        "type": "string",
+        "description": "Short title for the agreement, e.g. 'Branding Package - Acme Corp'. Appears at the top of the signing page and in email subjects."
+      },
+      "markdown_body": {
+        "type": "string",
+        "description": "The full body of the contract in markdown. Should include sections like Project Overview, Deliverables, Fees, Timeline, IP, Liability, Termination, General Provisions. Do NOT include the signature block — SwitchSign adds it automatically."
+      },
+      "client_company_name": {
+        "type": "string",
+        "description": "Optional. The client's company name, if signing on behalf of a business. Pre-fills the signing form so the client doesn't re-type it."
+      },
+      "client_title": {
+        "type": "string",
+        "description": "Optional. The signer's title/role at the company (e.g. 'Owner', 'CEO'). Pre-fills the signing form."
+      }
+    },
+    "required": ["client_name", "client_email", "contract_title", "markdown_body"]
+  }
+}

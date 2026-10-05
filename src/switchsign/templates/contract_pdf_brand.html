@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ contract_title }}</title>
+  <link rel="stylesheet" href="../static/contract-brand.css">
+</head>
+<body>
+
+  <section class="cover-page">
+    <div class="cover-frame"></div>
+    <img class="cover-burst" src="../static/brand/cover-starburst.svg" alt="">
+
+    <div class="cover-summary">
+      <p class="cover-line"><strong>PROJECT:</strong> {{ contract_title }}</p>
+      <p class="cover-line"><strong>BETWEEN:</strong> Switch Case LLC ("Switch Case Studio") &amp; {{ client_party or client_name }}</p>
+      {% if has_quick_summary %}
+      <p class="cover-kicker">Quick summary of what's covered:</p>
+      <div class="quick-summary">{{ quick_summary_html | safe }}</div>
+      {% endif %}
+    </div>
+
+    <div class="cover-wordmark cover-wordmark--top">SERVICE</div>
+    <div class="cover-wordmark cover-wordmark--bottom">AGREEMENT</div>
+  </section>
+
+  <main class="body-content">
+    <div class="body-frame"></div>
+    <div class="body-wordmark body-wordmark--top">SERVICE</div>
+    <div class="body-wordmark body-wordmark--bottom">AGREEMENT</div>
+
+    <div class="page-meta">
+      <div>Date: <span class="meta-line">{{ signed_date_display }}</span></div>
+    </div>
+
+    <h1 class="body-title">Service Agreement</h1>
+    <p class="legal-preamble">This Service Agreement ("Agreement") is made and entered into on {{ signed_date_display }} (the "Effective Date"), by and between Switch Case LLC (DBA "Switch Case Studio") with its principal place of business at 123 Example Street, Portland, OR 97205 ("Service Provider"), and {{ client_party or client_name }}{% if client_signed_address %}, with its principal place of business at {{ client_signed_address }}{% endif %} ("Client"). Service Provider and Client may each be referred to as a "Party" and collectively as the "Parties."</p>
+
+    <hr class="section-rule">
+
+    <article class="contract-body">
+      {{ contract_html | safe }}
+    </article>
+
+    <section class="signature-block">
+      <h2>Signatures</h2>
+
+      <div class="signature-row">
+        <div class="signature-party">
+          <h3>Client</h3>
+          <div class="signature-line">
+            <img class="signature-image" src="data:image/png;base64,{{ signature_image_base64 }}" alt="Client signature">
+          </div>
+          <table class="signature-details" aria-label="Client signature details">
+            <tbody>
+              {% if client_company_name %}<tr><th scope="row">Company</th><td>{{ client_company_name }}</td></tr>{% endif %}
+              <tr><th scope="row">Name</th><td>{{ client_signed_name }}{% if client_title %}, {{ client_title }}{% endif %}</td></tr>
+              <tr><th scope="row">Address</th><td>{{ client_signed_address }}</td></tr>
+              <tr><th scope="row">Email</th><td>{{ client_email }}</td></tr>
+              <tr><th scope="row">Signed</th><td>{{ signed_at_display }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="signature-party">
+          <h3>Service Provider</h3>
+          <div class="signature-line signature-line--printed"><span class="printed-accept">Accepted electronically</span></div>
+          <table class="signature-details" aria-label="Service provider signature details">
+            <tbody>
+              <tr><th scope="row">Name</th><td>Moshe Atia</td></tr>
+              <tr><th scope="row">Title</th><td>President, Switch Case LLC</td></tr>
+              <tr><th scope="row">Address</th><td>123 Example Street, Portland, OR 97205</td></tr>
+              <tr><th scope="row">Accepted</th><td>{{ signed_at_display }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <span>Signed via SwitchSign</span>
+      <span>Audit ID: {{ audit_id }} · IP: {{ client_ip }}</span>
+    </footer>
+  </main>
+
+</body>
+</html>

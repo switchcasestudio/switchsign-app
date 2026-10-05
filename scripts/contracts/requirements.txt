@@ -1,0 +1,5 @@
+# Dependencies for the manual contract generator (scripts/generate_contract.py).
+# This is all it needs — it does NOT require the SwitchSign app, Docker, or a
+# local server; it calls the live SwitchSign API over the internet.
+jinja2>=3.0
+python-dotenv>=1.0

@@ -1,0 +1,446 @@
+/* ============================================================
+   SwitchSign — Service Agreement PDF
+   Single source of truth for generated/email PDF output.
+   Render target: WeasyPrint, A4 paged media.
+   Visual language mirrors the Switch Case Studio Canva proposal:
+   orange frame, warm-paper field, huge full-bleed black wordmarks
+   top & bottom of every page, purple starburst logo, airy type.
+   ============================================================ */
+
+@font-face {
+  font-family: "Helvetica Neue Switch";
+  src: url("fonts/HelveticaNeue.ttc") format("truetype-collection");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+:root {
+  --brand-orange: #f26b39;
+  --brand-paper: #ecebe8;
+  --brand-pink: #d2a3df;
+  --brand-black: #0a0a0a;
+
+  /* Wordmark treatment shared by cover + interior pages.
+     Use only the repo Helvetica (no Arial Black) so the whole document is
+     one typeface; weight 700 is the genuine Helvetica Neue Bold face (900
+     in this .ttc is a heavy *condensed* black, which read too bold). */
+  --wordmark-stack: "Helvetica Neue Switch", Arial, sans-serif;
+  --wordmark-tracking: -0.04em;
+}
+
+/* ------------------------------------------------------------
+   Page geometry
+   Top/bottom margins are deliberately large so the fixed
+   full-bleed wordmarks (declared in the body flow) never
+   collide with flowing contract text.
+   ------------------------------------------------------------ */
+
+@page {
+  size: A4;
+  margin: 40mm 18mm 40mm 18mm;
+  background: var(--brand-paper);
+
+  @top-right {
+    content: url("brand/logo-starburst.svg");
+    margin: 7mm -11mm 0 0;
+    vertical-align: top;
+    width: 24mm;
+  }
+}
+
+@page cover {
+  size: A4;
+  margin: 0;
+  background: var(--brand-paper);
+  @top-left { content: none; }
+  @top-center { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-center { content: none; }
+  @bottom-right { content: none; }
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  background: var(--brand-paper);
+  color: var(--brand-black);
+  font-family: "Helvetica Neue Switch", Arial, sans-serif;
+  font-size: 10pt;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   Repeating furniture on every interior (non-cover) page.
+   These live in the body flow and use position: fixed, so
+   WeasyPrint paints them on each paginated body page — the
+   same mechanism the orange frame already relied on.
+   ============================================================ */
+
+/* Orange frame bleeds to the true page edge. Offsets equal the
+   @page margins (40mm top/bottom, 18mm sides) so the 9mm border
+   sits flush against the paper edge — matching the cover. */
+.body-frame {
+  border: 9mm solid var(--brand-orange);
+  bottom: -40mm;
+  left: -18mm;
+  pointer-events: none;
+  position: fixed;
+  right: -18mm;
+  top: -40mm;
+  z-index: 5;
+}
+
+/* Wordmarks sit ON TOP of the frame (like the cover) so the
+   black letters read fully and bleed over the frame at the edges
+   rather than being cut by the orange band. */
+.body-wordmark {
+  color: var(--brand-black);
+  font-family: var(--wordmark-stack);
+  font-weight: 700;
+  letter-spacing: var(--wordmark-tracking);
+  line-height: 0.8;
+  position: fixed;
+  white-space: nowrap;
+  z-index: 12;
+}
+
+/* SERVICE and AGREEMENT share one size and are both left-aligned to the
+   same left edge so they line up vertically. The starburst logo lives in
+   the top-RIGHT corner (see @page); SERVICE stays left so they don't clash. */
+.body-wordmark--top {
+  font-size: 60pt;
+  left: -2mm;
+  top: -24mm;
+}
+
+.body-wordmark--bottom {
+  bottom: -22mm;
+  font-size: 60pt;
+  left: -2mm;
+}
+
+/* ============================================================
+   Cover
+   ============================================================ */
+
+.cover-page {
+  background: var(--brand-paper);
+  height: 297mm;
+  overflow: hidden;
+  page: cover;
+  page-break-after: always;
+  position: relative;
+  width: 210mm;
+}
+
+.cover-frame {
+  border: 9mm solid var(--brand-orange);
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.cover-burst {
+  height: 232mm;
+  left: -78mm;
+  position: absolute;
+  top: 36mm;
+  width: 232mm;
+  z-index: 1;
+}
+
+.cover-wordmark {
+  color: var(--brand-black);
+  font-family: var(--wordmark-stack);
+  font-weight: 700;
+  letter-spacing: var(--wordmark-tracking);
+  line-height: 0.78;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 12;
+}
+
+/* Both cover wordmarks are centered across the full page width. */
+.cover-wordmark--top {
+  font-size: 84pt;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 14mm;
+}
+
+.cover-wordmark--bottom {
+  bottom: 14mm;
+  font-size: 84pt;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* The overview sits centered on the purple starburst, and its width is
+   capped so the text stops at the star's inner concave notches on the right
+   (page-x ~105mm) rather than running out to the spike tips (~150mm). */
+.cover-summary {
+  left: 20mm;
+  position: absolute;
+  right: 105mm;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.cover-line,
+.cover-kicker,
+.quick-summary {
+  font-size: 11.4pt;
+  line-height: 1.34;
+}
+
+.cover-line,
+.cover-kicker,
+.quick-summary p {
+  margin: 0 0 3.4mm;
+}
+
+.cover-line strong { font-weight: 700; }
+.cover-kicker {
+  font-weight: 700;
+  margin-top: 6mm;
+}
+
+.quick-summary ul,
+.quick-summary ol {
+  margin: 1.5mm 0 3mm 5mm;
+  padding: 0;
+}
+
+.quick-summary li {
+  margin: 0;
+  padding-left: 1mm;
+}
+
+/* ============================================================
+   Body content — normal flow so WeasyPrint paginates correctly
+   ============================================================ */
+
+.body-content {
+  position: relative;
+  z-index: 1;
+}
+
+.page-meta {
+  font-size: 9pt;
+  line-height: 1.4;
+  margin: 0 0 7mm 0;
+}
+
+.page-meta > div { margin-bottom: 0.8mm; }
+
+.meta-line {
+  border-bottom: 1px solid var(--brand-black);
+  display: inline-block;
+  min-width: 24mm;
+  padding: 0 1mm;
+}
+
+.body-title {
+  font-size: 16pt;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  margin: 0 0 4mm;
+  text-transform: uppercase;
+}
+
+.legal-preamble {
+  margin: 0 0 8mm;
+  line-height: 1.55;
+}
+
+/* The old design drew a black rule above every heading; the
+   proposal uses whitespace + weight instead, so rules are gone. */
+.section-rule {
+  display: none;
+}
+
+.contract-body h1,
+.contract-body h2 {
+  color: var(--brand-black);
+  font-size: 12.5pt;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  margin: 8mm 0 2.6mm;
+  text-transform: uppercase;
+}
+
+.contract-body > h1:first-child,
+.contract-body > h2:first-child {
+  margin-top: 0;
+}
+
+.contract-body h3 {
+  color: var(--brand-black);
+  font-size: 10.8pt;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 5mm 0 1.5mm;
+  text-decoration: none;
+}
+
+.contract-body p {
+  line-height: 1.55;
+  margin: 0 0 2.6mm;
+}
+
+.contract-body ul,
+.contract-body ol {
+  margin: 0 0 2.6mm 6mm;
+  padding: 0;
+}
+
+.contract-body ul { list-style-type: disc; }
+.contract-body ol { list-style-type: decimal; }
+
+/* Keep list items on the same line rhythm as body paragraphs — no extra
+   inter-item gap. */
+.contract-body li {
+  line-height: 1.55;
+  margin: 0;
+  padding-left: 1mm;
+}
+
+.contract-body li::marker { color: var(--brand-black); }
+
+.contract-body strong { font-weight: 700; }
+
+.contract-body table {
+  border-collapse: collapse;
+  margin: 5mm 0;
+  width: 100%;
+}
+
+.contract-body th,
+.contract-body td {
+  border: 1px solid var(--brand-black);
+  padding: 1.6mm;
+  vertical-align: top;
+}
+
+.contract-body th {
+  font-weight: 700;
+  text-align: left;
+}
+
+/* ============================================================
+   Signature block
+   ============================================================ */
+
+.signature-block {
+  break-inside: avoid;
+  margin-top: 10mm;
+  page-break-inside: avoid;
+}
+
+.signature-block h2 {
+  font-size: 12.5pt;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  margin: 0 0 5mm;
+  text-transform: uppercase;
+}
+
+.signature-row {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.signature-party {
+  display: table-cell;
+  padding-right: 7mm;
+  vertical-align: top;
+  width: 50%;
+}
+
+.signature-party + .signature-party {
+  padding-left: 3mm;
+  padding-right: 0;
+}
+
+.signature-party h3 {
+  color: var(--brand-black);
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 0 0 2mm;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.signature-line {
+  border-bottom: 1px solid var(--brand-black);
+  height: 24mm;
+  margin: 1.5mm 0 3mm;
+  padding: 0 0 1.6mm;
+}
+
+/* Provider side has no drawn signature; mark it accepted electronically
+   so the line never reads as an unsigned blank. */
+.signature-line--printed { position: relative; }
+
+.printed-accept {
+  bottom: 1.6mm;
+  color: var(--brand-black);
+  font-size: 9pt;
+  font-style: italic;
+  left: 0;
+  position: absolute;
+}
+
+.signature-image {
+  display: block;
+  max-height: 21mm;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.signature-details {
+  border-collapse: collapse;
+  font-size: 8.8pt;
+  line-height: 1.4;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.signature-details th,
+.signature-details td {
+  border: 0;
+  padding: 0 0 1.2mm;
+  text-align: left;
+  vertical-align: top;
+}
+
+.signature-details th {
+  font-weight: 700;
+  width: 18mm;
+}
+
+.signature-details td { overflow-wrap: anywhere; }
+
+.doc-footer {
+  border-top: 1px solid var(--brand-black);
+  break-inside: avoid;
+  font-size: 7.7pt;
+  margin-top: 7mm;
+  padding-top: 1.8mm;
+  page-break-inside: avoid;
+}
+
+.doc-footer span + span { float: right; }

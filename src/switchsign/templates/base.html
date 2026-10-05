@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SwitchSign{% endblock %}</title>
+  <link rel="stylesheet" href="/static/sign.css?v=scs-20260715-1">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="site-header">
+    <a class="brand" href="https://www.switchcasestudio.com" target="_blank" rel="noopener noreferrer">Switch Case Studio</a>
+  </header>
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <span>&copy; 2026 Switch Case Studio</span>
+    <span>Powered by SwitchSign</span>
+  </footer>
+</body>
+</html>

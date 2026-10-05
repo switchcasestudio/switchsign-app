@@ -1,0 +1,13 @@
+<p>Hi {{ contract.client_name }},</p>
+
+<p>This is a friendly reminder to review and sign the agreement we sent earlier:</p>
+
+<p><strong>{{ contract.contract_title }}</strong></p>
+
+<p><a href="{{ signing_url }}">{{ signing_url }}</a></p>
+
+<p>This link will expire on {{ expires_at_display }}.</p>
+
+<p>If you've already signed or this is no longer relevant, you can disregard this message.</p>
+
+<p>— Moses<br>Switch Case Studio</p>
